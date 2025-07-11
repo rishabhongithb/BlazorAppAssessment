@@ -1,0 +1,60 @@
+﻿@page "/CreateEmployee"
+@using BlazorAppAssessmentLibrary
+@inject HttpClient http
+@inject NavigationManager nav
+
+<h3>Create Employee</h3>
+
+<div class="mt-4">
+    <EditForm Model="employee" OnValidSubmit="AddEmployee">
+        <DataAnnotationsValidator />
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label class="form-label">First Name</label>
+                <InputText class="form-control" @bind-Value="employee.FirstName" />
+                <ValidationMessage For="@(() => employee.FirstName)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label class="form-label">Last Name</label>
+                <InputText class="form-control" @bind-Value="employee.LastName" />
+                <ValidationMessage For="@(() => employee.LastName)"></ValidationMessage>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label class="form-label">Email</label>
+                <InputText class="form-control" @bind-Value="employee.Email" />
+                <ValidationMessage For="@(() => employee.Email)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label class="form-label">Address</label>
+                <InputText class="form-control" @bind-Value="employee.Address" />
+                <ValidationMessage For="@(() => employee.Address)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <button class="btn btn-success" type="submit">Add</button>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    Employee employee = new();
+
+    private void AddEmployee()
+    {
+        http.PostAsJsonAsync("https://localhost:7038/api/Employees", employee);
+
+        //This can be the scope of enhancement because after adding the record page
+        //is not refreshed but then have load the below page anyway
+        nav.NavigateTo("/EmployeeDetails");
+    }
+}

@@ -1,0 +1,52 @@
+﻿@page "/EmployeeDetails"
+
+@using BlazorAppAssessmentLibrary
+<h3>Employee Details</h3>
+@inject HttpClient http
+
+
+
+@if (Employees.Count() == 0)
+{
+    <p>No Records Found...</p>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Employees)
+                        {
+                            <tr>
+                                <th scope="row">@item.FirstName</th>
+                                <td>@item.LastName</td>
+                                <td>@item.Email</td>
+                                <td>@item.Address</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    public IEnumerable<Employee> Employees { get; set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        Employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:7038/api/Employees");
+    }
+}
