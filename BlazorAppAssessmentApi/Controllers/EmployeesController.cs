@@ -43,6 +43,7 @@ namespace BlazorAppAssessmentApi.Controllers
             try
             {
                 var employees = _sqlInstance.GetAllEmployees();
+                if(employees != null)
                 return employees.ToList();
             }
             catch (Exception ex)
