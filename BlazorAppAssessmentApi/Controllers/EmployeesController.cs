@@ -44,7 +44,9 @@ namespace BlazorAppAssessmentApi.Controllers
             {
                 var employees = _sqlInstance.GetAllEmployees();
                 if(employees != null)
-                return employees.ToList();
+                    return employees.ToList();
+                else
+                    return new List<Employee>();
             }
             catch (Exception ex)
             {
